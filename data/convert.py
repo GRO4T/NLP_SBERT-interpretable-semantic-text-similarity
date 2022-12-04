@@ -39,8 +39,8 @@ def main():
         wa_content = wa.read()
 
     tsv_content = '\t'.join(['x1', 'x2', 'y_type', 'y_score']) + '\n' + handle_wa(wa_content)
-
-    output_path = f'{"/".join(args.file_path.split("/")[:-1])}/{"test" if "test" in args.file_path else "train"}.tsv'
+    name = args.file_path.split("/")[-1].split(".")[-2]
+    output_path = f'{"/".join(args.file_path.split("/")[:-1])}/{"test_"+name if "test" in args.file_path else "train_" + name}.tsv'
 
     with open(output_path, 'w') as tsv:
         tsv.write(tsv_content)
