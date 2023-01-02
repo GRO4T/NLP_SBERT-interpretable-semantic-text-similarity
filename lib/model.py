@@ -1,5 +1,4 @@
 from pytorch_lightning import LightningModule
-from sentence_transformers import SentenceTransformer
 import torch
 import numpy as np
 
@@ -11,11 +10,10 @@ class SBERT_iSTS_Model(LightningModule):
         self, sbert_model: str = "all-mpnet-base-v2", learning_rate: float = 0.001
     ):
         super().__init__()
-        self._sbert = SentenceTransformer(sbert_model)
         # kolasdam(TODO) sparametryzować
-        self._scoring_head = torch.nn.Linear(in_features=384 * 2, out_features=1)
+        self._scoring_head = torch.nn.Linear(in_features=768 * 2, out_features=1)
         self._class_head = torch.nn.Linear(
-            in_features=384 * 2, out_features=len(TYPES_MAP)
+            in_features=768 * 2, out_features=len(TYPES_MAP)
         )
         self._learning_rate = learning_rate
         self.save_hyperparameters()
@@ -26,13 +24,8 @@ class SBERT_iSTS_Model(LightningModule):
         return self.loss(y, y_hat, id)
 
     def forward(self, x):
-        embedding_a = self._sbert.encode(x[0])
-        embedding_b = self._sbert.encode(x[1])
-
-        ists_head_input = np.concatenate((embedding_a, embedding_b))
-
-        score = torch.reshape(self._scoring_head(ists_head_input), (-1,))
-        cls = torch.nn.functional.softmax(self._class_head(ists_head_input), dim=1)
+        score = torch.reshape(self._scoring_head(x), (-1,))
+        cls = torch.nn.functional.softmax(self._class_head(x), dim=1)
 
         return cls, score
 
