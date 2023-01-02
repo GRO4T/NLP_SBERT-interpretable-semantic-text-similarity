@@ -37,6 +37,7 @@ class SBERT_iSTS_Model(LightningModule):
         return cls, score
 
     def loss(self, y, y_hat, id):
+        # Klasa i ocena uczone razem
         scoring_loss = torch.nn.functional.mse_loss(y_hat[1], y[1])
         class_loss = torch.nn.functional.binary_cross_entropy_with_logits(y_hat[0], y[0])
         return scoring_loss + class_loss
