@@ -19,7 +19,7 @@ class SBERT_iSTS_Model(LightningModule):
         )
         self._learning_rate = learning_rate
         self.save_hyperparameters()
-    
+
     def _step(self, batch, batch_idx, id: str):
         x, y = batch
         y_hat = self.forward(x)
@@ -39,7 +39,9 @@ class SBERT_iSTS_Model(LightningModule):
     def loss(self, y, y_hat, id):
         # Klasa i ocena uczone razem
         scoring_loss = torch.nn.functional.mse_loss(y_hat[1], y[1])
-        class_loss = torch.nn.functional.binary_cross_entropy_with_logits(y_hat[0], y[0])
+        class_loss = torch.nn.functional.binary_cross_entropy_with_logits(
+            y_hat[0], y[0]
+        )
         return scoring_loss + class_loss
 
     def training_step(self, batch, batch_idx):
@@ -58,9 +60,9 @@ class SBERT_iSTS_Model(LightningModule):
         x, y = batch
         types, scores = self.forward(x)
 
-        return \
-            torch.argmax(types, dim=1), \
-            torch.clamp(torch.round(scores).int(), min=0, max=5)
-    
+        return torch.argmax(types, dim=1), torch.clamp(
+            torch.round(scores).int(), min=0, max=5
+        )
+
     def configure_optimizers(self):
         return torch.optim.AdamW(self.parameters(), lr=self._learning_rate)
