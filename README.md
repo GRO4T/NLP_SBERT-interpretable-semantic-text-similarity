@@ -1,8 +1,8 @@
 ## TODOsy
-- [ ] Załadować dane
+- [X] Załadować dane
 - [ ] Skonfigurować wandb/tensorboard
-- [ ] Dataset
-- [ ] LightningDataModule
+- [X] Dataset
+- [X] LightningDataModule
 - [ ] NLPModel 1 (ocena i typ uczone razem)
 - [ ] NLPModel 2 (ocena i typ uczone oddzielnie)
 - [ ] NLPModel 3 (perceptron wielowarstwowy)
