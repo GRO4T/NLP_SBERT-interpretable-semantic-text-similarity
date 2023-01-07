@@ -3,17 +3,19 @@ import torch
 import numpy as np
 
 from lib.utils import TYPES_MAP
+from lib.params import SBERT_EMBEDDING_WIDTH
 
 
-class SBERT_iSTS_Model(LightningModule):
+class SingleLayeredHeadJointLearningWithSBERTFrozen(LightningModule):
     def __init__(
         self, sbert_model: str = "all-mpnet-base-v2", learning_rate: float = 0.001
     ):
         super().__init__()
-        # kolasdam(TODO) sparametryzować
-        self._scoring_head = torch.nn.Linear(in_features=768 * 2, out_features=1)
+        self._scoring_head = torch.nn.Linear(
+            in_features=SBERT_EMBEDDING_WIDTH * 2, out_features=1
+        )
         self._class_head = torch.nn.Linear(
-            in_features=768 * 2, out_features=len(TYPES_MAP)
+            in_features=SBERT_EMBEDDING_WIDTH * 2, out_features=len(TYPES_MAP)
         )
         self._learning_rate = learning_rate
         self.save_hyperparameters()

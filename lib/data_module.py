@@ -15,6 +15,7 @@ class SBERTDataModule(LightningDataModule):
         batch_size: int,
         train_batch_size: int,
         num_workers: int,
+        persistent_workers: bool,
     ):
         super().__init__()
 
@@ -25,6 +26,7 @@ class SBERTDataModule(LightningDataModule):
         self._batch_size = batch_size
         self._train_batch_size = train_batch_size
         self._num_workers = num_workers
+        self._persistent_workers = persistent_workers
         self._train_path = train_path
         self._test_path = test_path
         self._preparte_data_per_node = True
@@ -51,6 +53,7 @@ class SBERTDataModule(LightningDataModule):
             self._train_dataset,
             batch_size=self._train_batch_size,
             num_workers=self._num_workers,
+            persistent_workers=self._persistent_workers,
         )
 
     def val_dataloader(self):
@@ -58,6 +61,7 @@ class SBERTDataModule(LightningDataModule):
             self._val_dataset,
             batch_size=self._batch_size,
             num_workers=self._num_workers,
+            persistent_workers=self._persistent_workers,
         )
 
     def test_dataloader(self):
@@ -65,6 +69,7 @@ class SBERTDataModule(LightningDataModule):
             self._test_dataset,
             batch_size=self._batch_size,
             num_workers=self._num_workers,
+            persistent_workers=self._persistent_workers,
         )
 
     def predict_dataloader(self):
@@ -73,4 +78,5 @@ class SBERTDataModule(LightningDataModule):
             batch_size=self._batch_size,
             num_workers=self._num_workers,
             shuffle=False,
+            persistent_workers=self._persistent_workers,
         )
