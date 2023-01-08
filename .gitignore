@@ -4,3 +4,4 @@
 **/lightning_logs
 **/*predictions.wa
 **/checkpoints
+venv/
