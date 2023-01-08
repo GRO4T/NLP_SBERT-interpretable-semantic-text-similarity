@@ -1,7 +1,8 @@
 **/.vscode
-**/.venv
+**/*venv*
 **/__pycache__
 **/lightning_logs
 **/*predictions.wa
-**/checkpoints
-venv/
+**/*checkpoints*
+SingleLayerJoined
+SingleLayerSeparate
