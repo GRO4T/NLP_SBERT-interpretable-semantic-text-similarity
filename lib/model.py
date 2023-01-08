@@ -2,6 +2,8 @@ from pytorch_lightning import LightningModule
 import torch
 import numpy as np
 
+from sentence_transformers import SentenceTransformer
+
 from lib.utils import TYPES_MAP
 from lib.params import SBERT_EMBEDDING_WIDTH
 
@@ -11,6 +13,13 @@ class SingleLayeredHeadJointLearningWithSBERTFrozen(LightningModule):
         self, sbert_model: str = "all-mpnet-base-v2", learning_rate: float = 0.001
     ):
         super().__init__()
+        self._sbert = SentenceTransformer("all-mpnet-base-v2", device="cuda")
+
+        ### Freezing SBERT
+        self._sbert.eval()
+        for param in self._sbert.parameters():
+            param.requires_grad = False
+
         self._scoring_head = torch.nn.Linear(
             in_features=SBERT_EMBEDDING_WIDTH * 2, out_features=1
         )
@@ -26,6 +35,14 @@ class SingleLayeredHeadJointLearningWithSBERTFrozen(LightningModule):
         return self.loss(y, y_hat, id)
 
     def forward(self, x):
+
+        ###Sentences encoding
+        a = self._sbert.encode(x[0])
+        b = self._sbert.encode(x[1])
+        c = np.concatenate((a, b), axis=1)
+        x = torch.tensor(c)
+        x = x.to(device="cuda")
+
         score = torch.reshape(self._scoring_head(x), (-1,))
         cls = torch.nn.functional.softmax(self._class_head(x), dim=1)
 
@@ -41,14 +58,17 @@ class SingleLayeredHeadJointLearningWithSBERTFrozen(LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss = self._step(batch, batch_idx, "train")
+        self.log("train_loss", loss, sync_dist=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
         loss = self._step(batch, batch_idx, "val")
+        self.log("val_loss", loss, sync_dist=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         loss = self._step(batch, batch_idx, "test")
+        self.log("test_loss", loss, sync_dist=True)
         return loss
 
     def predict_step(self, batch, batch_idx):

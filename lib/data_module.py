@@ -54,6 +54,7 @@ class SBERTDataModule(LightningDataModule):
             batch_size=self._train_batch_size,
             num_workers=self._num_workers,
             persistent_workers=self._persistent_workers,
+            pin_memory=True,
         )
 
     def val_dataloader(self):
@@ -62,6 +63,7 @@ class SBERTDataModule(LightningDataModule):
             batch_size=self._batch_size,
             num_workers=self._num_workers,
             persistent_workers=self._persistent_workers,
+            pin_memory=True,
         )
 
     def test_dataloader(self):
@@ -70,6 +72,7 @@ class SBERTDataModule(LightningDataModule):
             batch_size=self._batch_size,
             num_workers=self._num_workers,
             persistent_workers=self._persistent_workers,
+            pin_memory=True,
         )
 
     def predict_dataloader(self):
@@ -79,4 +82,5 @@ class SBERTDataModule(LightningDataModule):
             num_workers=self._num_workers,
             shuffle=False,
             persistent_workers=self._persistent_workers,
+            pin_memory=True,
         )

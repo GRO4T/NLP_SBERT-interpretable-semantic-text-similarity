@@ -14,9 +14,6 @@ class SBERTDataset(Dataset):
         self._data = pd.read_csv(
             file_path, sep="\t", keep_default_na=False, quoting=csv.QUOTE_NONE
         )
-
-        self._sbert = SentenceTransformer("all-mpnet-base-v2")
-
         self._types = self._get_encoded_types()
         self._scores = torch.tensor(self._data["y_score"]).float()
 
@@ -30,12 +27,7 @@ class SBERTDataset(Dataset):
     def __getitem__(self, index):
         x1 = self._data["x1"]
         x2 = self._data["x2"]
-
-        a = self._sbert.encode(x1[index])
-        b = self._sbert.encode(x2[index])
-        c = np.concatenate((a, b))
-
-        x = torch.tensor(c)
+        x = (x1[index], x2[index])
         y = (self._types[index], self._scores[index])
         return x, y
 
