@@ -1,10 +1,10 @@
 ## TODOsy
 - [X] Załadować dane
-- [ ] Skonfigurować wandb/tensorboard
+- [X] Skonfigurować wandb/tensorboard
 - [X] Dataset
 - [X] LightningDataModule
 - [X] NLPModel 1 (ocena i typ uczone razem) [do weryfikacji]
-- [ ] NLPModel 2 (ocena i typ uczone oddzielnie)
+- [X] NLPModel 2 (ocena i typ uczone oddzielnie)
 - [ ] NLPModel 3 (perceptron wielowarstwowy)
 - [X] trenowanie modelu (kod)
 - [X] eval (kod)
@@ -13,7 +13,7 @@
 - [ ] trenowanie i testowanie modelu 3 (wykonanie)
 
 ### MINI taski
-- [ ] odkladanie checkpointow w trakcie treningu (tak zeby bylo mozna wracac)
+- [X] odkladanie checkpointow w trakcie treningu (tak zeby bylo mozna wracac)
 - [ ] sprawdzic jak batch_size wplywa na jakosc modelu
 
 ## SBERT
