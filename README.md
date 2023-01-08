@@ -3,14 +3,18 @@
 - [ ] Skonfigurować wandb/tensorboard
 - [X] Dataset
 - [X] LightningDataModule
-- [ ] NLPModel 1 (ocena i typ uczone razem)
+- [X] NLPModel 1 (ocena i typ uczone razem) [do weryfikacji]
 - [ ] NLPModel 2 (ocena i typ uczone oddzielnie)
 - [ ] NLPModel 3 (perceptron wielowarstwowy)
-- [ ] trenowanie modelu (kod)
-- [ ] eval (kod)
+- [X] trenowanie modelu (kod)
+- [X] eval (kod)
 - [ ] trenowanie i testowanie modelu 1 (wykonanie)
 - [ ] trenowanie i testowanie modelu 2 (wykonanie)
 - [ ] trenowanie i testowanie modelu 3 (wykonanie)
+
+### MINI taski
+- [ ] odkladanie checkpointow w trakcie treningu (tak zeby bylo mozna wracac)
+- [ ] sprawdzic jak batch_size wplywa na jakosc modelu
 
 ## SBERT
 https://www.sbert.net/
